@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:local="clr-namespace:MailSender1"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
@@ -43,13 +44,13 @@
                                 <ComboBoxItem>smtp.mail.ru</ComboBoxItem>
                             </ComboBox>
                             <Button>
-                                <Image Source="/Media/add.png" Height="12"/>
+                                <Image Source="Media\add.png" Height="12" />
                             </Button>
                             <Button>
-                                <Image Source="/Media/edit.png" Height="12"/>
+                                <Image Source="Media\edit.png" Height="12"/>
                             </Button>
                             <Button>
-                                <Image Source="/Media/remove.png" Height="12"/>
+                                <Image Source="Media\remove.png" Height="12"/>
                             </Button>
                         </ToolBar>
                         <ToolBar Header="Отправители" Band="1">
@@ -58,17 +59,21 @@
                                 <ComboBoxItem>Петров</ComboBoxItem>
                                 <ComboBoxItem>Сидоров</ComboBoxItem>
                             </ComboBox>
-                            <Button Content="Add"/>
-                            <Button Content="Edit"/>
-                            <Button Content="Del"/>
+                            <Button ToolTip="Добавить">
+                                <fa:ImageAwesome Icon="Solid_PlusCircle" Height="12" Foreground="DarkBlue"/>
+                            </Button>
+                            <Button fa:Awesome.Content="Solid_Edit" Foreground="OrangeRed" ToolTip="Редактировать"/>
+                            <Button fa:Awesome.Content="Regular_TrashAlt" Foreground="red" ToolTip="Удалить"/>
                         </ToolBar>
                         <ToolBar Header="Перейти в Планировщик" Band="0">
-                            <Button>Перейти</Button>
+                            <Button fa:Awesome.Content="Regular_Clock" Foreground="DarkBlue"/>
                         </ToolBar>
                         <ToolBar Header="Получатели" Band="1">
-                            <Button Content="Add"/>
-                            <Button Content="Edit"/>
-                            <Button Content="Del"/>
+                            <Button ToolTip="Добавить">
+                                <fa:ImageAwesome Icon="Solid_PlusCircle" Height="12" Foreground="DarkBlue"/>
+                            </Button>
+                            <Button fa:Awesome.Content="Solid_Edit" Foreground="OrangeRed" ToolTip="Редактировать"/>
+                            <Button fa:Awesome.Content="Regular_TrashAlt" Foreground="red" ToolTip="Удалить"/>
                         </ToolBar>
                     </ToolBarTray>
                     <GroupBox Header="Список получателей">
