@@ -42,9 +42,15 @@
                                 <ComboBoxItem>smtp.gmail.com</ComboBoxItem>
                                 <ComboBoxItem>smtp.mail.ru</ComboBoxItem>
                             </ComboBox>
-                            <Button Content="Add"/>
-                            <Button Content="Edit"/>
-                            <Button Content="Del"/>
+                            <Button>
+                                <Image Source="/Media/add.png" Height="12"/>
+                            </Button>
+                            <Button>
+                                <Image Source="/Media/edit.png" Height="12"/>
+                            </Button>
+                            <Button>
+                                <Image Source="/Media/remove.png" Height="12"/>
+                            </Button>
                         </ToolBar>
                         <ToolBar Header="Отправители" Band="1">
                             <ComboBox MinWidth="120" MaxWidth="200" SelectedIndex="1">
