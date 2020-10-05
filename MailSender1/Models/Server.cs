@@ -8,7 +8,7 @@ namespace MailSender1.Models
     {
         public string Address { get; set; }
 
-        private int _Port;
+        private int _Port = 25;
         public int Port
         {
             get => _Port;
@@ -27,6 +27,10 @@ namespace MailSender1.Models
         public string Password { get; set; }
 
         public string Description { get; set; }
+
+        //public override string ToString() => $"{Address}:{Port}";
+
+
 
     }
 }
