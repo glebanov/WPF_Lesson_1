@@ -1,10 +1,13 @@
-﻿using MailSender1.Models;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
+using System.Collections.Generic;
+using System.Text;
+using MailSender1.Models;
+using MailSender1.lib.Service;
 
 namespace MailSender1.Data
 {
-    static class TestData
+     static class TestData
     {
         public static List<Sender> Senders { get; } = Enumerable.Range(1, 10)
             .Select(i => new Sender
@@ -27,12 +30,12 @@ namespace MailSender1.Data
         {
           Address = $"smtp.server{i}.com",
           Login = $"Login-{i}",
-          Password = $"Password - {i}",
+          Password = TextEncoder.Encode($"Password-{i}"),
           UseSSL = i % 2 ==0
         })
         .ToList();
 
-        public static List<Message> Messages { get; } = Enumerable.Range(1, 20)
+        public static List<Message> Messages { get; } = Enumerable.Range(1,20)
             .Select(i => new Message
             {
                 Subject = $"Сообщение {i}",
