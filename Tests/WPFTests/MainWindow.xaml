@@ -13,7 +13,7 @@
         </Window.DataContext>
     <Grid>
         <TextBox VerticalAlignment="Top" HorizontalAlignment="Left" Width="140" Margin="61,26,0,0"
-                 Text="{Binding Angle,ElementName=Rotator}"/>
+                 Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
         <Slider VerticalAlignment="Top" HorizontalAlignment="Left" Width="140" Margin="435, 26,0,0"
                 Maximum="600"
                 Value="{Binding X, ElementName=Translator}"/>
