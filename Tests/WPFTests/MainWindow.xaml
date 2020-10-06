@@ -30,6 +30,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
+        <TextBlock Text="{Binding CurrentTime, ConverterCulture=ru-Ru, StringFormat=HH:mm:ss.ffff}"/>
 
     </Grid>
 </Window>
