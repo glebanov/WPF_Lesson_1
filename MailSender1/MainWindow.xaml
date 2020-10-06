@@ -40,7 +40,7 @@
                 <DockPanel>
                     <ToolBarTray DockPanel.Dock="Top">
                         <ToolBar Header="Сервера" Band="0">
-                            <ComboBox Margin="27,0,0,0" MinWidth="120" MaxWidth="200" SelectedIndex="0"
+                            <ComboBox Name ="ServersList" Margin="27,0,0,0" MinWidth="120" MaxWidth="200" SelectedIndex="0"
                                       ItemsSource="{x:Static data:TestData.Servers}">
                              
                             </ComboBox>
@@ -86,7 +86,7 @@
                         </ToolBar>
                     </ToolBarTray>
                     <GroupBox Header="Список получателей">
-                        <DataGrid ItemsSource="{x:Static data:TestData.Recipients}"
+                        <DataGrid Name="RecipientList" ItemsSource="{x:Static data:TestData.Recipients}"
                                   AutoGenerateColumns="False"
                                   GridLinesVisibility="Vertical"
                                   AlternatingRowBackground="LightGray"
@@ -117,7 +117,7 @@
                                         <Setter Property="Background" Value="White"/>
                                     </Style>
                                 </StackPanel.Resources>
-                                <Button Content="Отправить"/>
+                                <Button Content="Отправить" Click="OnSendButtonClick"/>
                                 <Button Content="Заплонировать"/>
 
                             </StackPanel>

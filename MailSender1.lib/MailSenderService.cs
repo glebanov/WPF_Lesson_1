@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Mail;
 
 namespace MailSender1.lib
 {
-    class MailSenderService
+    public class MailSenderService
     {
         public string ServerAddress { get; set; }
 
@@ -40,7 +41,15 @@ namespace MailSender1.lib
                         Password = Password
                     };
 
-                    client.Send(message);
+                    try
+                    {
+                        client.Send(message);
+                    }
+                    catch (SmtpException e)
+                    {
+                        Trace.TraceError(e.ToString());
+                        throw;
+                    }
                 }
                
             } 
