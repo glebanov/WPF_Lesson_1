@@ -7,29 +7,24 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Label Content="Пароль" HorizontalAlignment="Left" Margin="490,150,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.06,2.804"/>
-        <TextBlock HorizontalAlignment="Left" Margin="142,150,0,0" Text="Имя пользователя" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <TextBox Name="LoginEdit" HorizontalAlignment="Left" Margin="142,200,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.5,0.5">
-            <TextBox.RenderTransform>
+        <TextBox VerticalAlignment="Top" HorizontalAlignment="Left" Width="140" Margin="61,26,0,0"
+                 Text="{Binding Angle,ElementName=Rotator}"/>
+        <Slider VerticalAlignment="Top" HorizontalAlignment="Left" Width="140" Margin="435, 26,0,0"
+                Maximum="600"
+                Value="{Binding X, ElementName=Translator}"/>
+        <Slider VerticalAlignment="Top" HorizontalAlignment="Left" Width="140" Margin="239,26,0,0"
+                Minimum="-180" Maximum="180"
+                Value="{Binding Angle, ElementName=Rotator}" RenderTransformOrigin="0.507,0.391"/>
+        <Ellipse  Fill="DarkBlue" Stroke="Red" StrokeThickness="4"
+                 VerticalAlignment="Top" HorizontalAlignment="Left" Width="80" Height="40" Margin="76,83,0,0"
+                 RenderTransformOrigin="0.5,0.5">
+            <Ellipse.RenderTransform>
                 <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-23.605"/>
-                    <TranslateTransform/>
+                    <TranslateTransform X="0" x:Name="Translator"/>
+                    <RotateTransform Angle="0" x:Name="Rotator"/>
                 </TransformGroup>
-            </TextBox.RenderTransform>
-        </TextBox>
-        <PasswordBox Name="PasswordEdit" HorizontalAlignment="Left" Margin="490,200,0,0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.5,0.5">
-            <PasswordBox.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="21.333"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </PasswordBox.RenderTransform>
-        </PasswordBox>
-        <Button Content="Отправить" HorizontalAlignment="Left" Margin="287,267,0,0" VerticalAlignment="Top" Height="79" Width="181" Click="OnSendButtonClick"/>
+            </Ellipse.RenderTransform>
+        </Ellipse>
 
     </Grid>
 </Window>
