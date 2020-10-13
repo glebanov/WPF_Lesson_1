@@ -1,4 +1,6 @@
 ﻿using System;
+using MailSender1.lib.Interfaces;
+using MailSender1.lib.Service;
 using MailSender1.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,6 +21,8 @@ namespace MailSender1
         private static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
         {
             services.AddSingleton<MainWindowViewModel>();
+            services.AddTransient<IMailService, SmtpMailService>();
+
         }
     }
 }
