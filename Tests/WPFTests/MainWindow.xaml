@@ -4,32 +4,51 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFTests"
+        xmlns:vm="clr-namespace:WPFTests.ViewModels"
+        xmlns:commands="clr-namespace:WPFTests.Infrastructure.Commands"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="{Binding Title}"
+        Topmost="{Binding IsChecked, ElementName=IsWindowTopMost}"
+        Height="450" Width="800">
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
     <Grid>
-        <Label Content="Пароль" HorizontalAlignment="Left" Margin="490,150,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.06,2.804"/>
-        <TextBlock HorizontalAlignment="Left" Margin="142,150,0,0" Text="Имя пользователя" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <TextBox Name="LoginEdit" HorizontalAlignment="Left" Margin="142,200,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.5,0.5">
-            <TextBox.RenderTransform>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="113*"/>
+            <ColumnDefinition Width="687*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox VerticalAlignment="Top" HorizontalAlignment="Left" Width="140" Margin="61,26,0,0"
+                 Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"/>
+        <Slider VerticalAlignment="Top" HorizontalAlignment="Left" Width="140" Margin="322,26,0,0"
+                Maximum="600"
+                Value="{Binding X, ElementName=Translator}" Grid.Column="1"/>
+        <Slider VerticalAlignment="Top" HorizontalAlignment="Left" Width="140" Margin="126,26,0,0"
+                Minimum="-180" Maximum="180"
+                Value="{Binding Angle, ElementName=Rotator}" RenderTransformOrigin="0.507,0.391" Grid.Column="1"/>
+        <Ellipse  Fill="DarkBlue" Stroke="Red" StrokeThickness="4"
+                 VerticalAlignment="Top" HorizontalAlignment="Left" Width="80" Height="40" Margin="76,83,0,0"
+                 RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2">
+            <Ellipse.RenderTransform>
                 <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-23.605"/>
-                    <TranslateTransform/>
+                    <TranslateTransform X="0" x:Name="Translator"/>
+                    <RotateTransform Angle="0" x:Name="Rotator"/>
                 </TransformGroup>
-            </TextBox.RenderTransform>
-        </TextBox>
-        <PasswordBox Name="PasswordEdit" HorizontalAlignment="Left" Margin="490,200,0,0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.5,0.5">
-            <PasswordBox.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="21.333"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </PasswordBox.RenderTransform>
-        </PasswordBox>
-        <Button Content="Отправить" HorizontalAlignment="Left" Margin="287,267,0,0" VerticalAlignment="Top" Height="79" Width="181" Click="OnSendButtonClick"/>
-
+            </Ellipse.RenderTransform>
+        </Ellipse>
+        <TextBlock Text="{Binding CurrentTime, ConverterCulture=ru-Ru, StringFormat=HH:mm:ss.ffff}" Grid.ColumnSpan="2"/>
+        <CheckBox Content="Включить таймер" VerticalAlignment="Top" HorizontalAlignment="Left"
+                  Margin="80,0,0,0" IsChecked="{Binding TimerEnabled}" Grid.ColumnSpan="2"/>
+        <CheckBox Content="Top most" VerticalAlignment="Top" HorizontalAlignment="Left"
+                  Margin="107,0,0,0" Name="IsWindowTopMost" Grid.Column="1"/>
+        <Button Content="Close Window" VerticalAlignment="Top" HorizontalAlignment="Left"
+                Margin="20,60">
+            <Button.Command>
+                <commands:CloseWindowCommand/>
+            </Button.Command>
+        </Button>
+        <Button Content="Hello World!" VerticalAlignment="Top" HorizontalAlignment="Left"
+                Margin="71,60,0,0" Grid.Column="1" Command="{Binding ShowDialogCommand}">
+        </Button>
     </Grid>
 </Window>
