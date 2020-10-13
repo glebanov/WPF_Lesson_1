@@ -23,38 +23,41 @@
             </MenuItem>
             <MenuItem Header="Сервис">
                 <MenuItem Header="Параметры"/>
+                <Separator/>
+                <MenuItem Header="Отправка почты" Command="{Binding SendMailCommand}"/>
             </MenuItem>
             <MenuItem Header="Помощь">
                 <MenuItem Header="О программе"/>
-            </MenuItem> 
+            </MenuItem>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem DockPanel.Dock="Right">
                 <ResizeGrip/>
             </StatusBarItem>
             <StatusBarItem>
-                <TextBlock Text="Готов"/>
+                <TextBlock Text="Готов!"/>
             </StatusBarItem>
-            <Separator HorizontalAlignment="Left"/>
         </StatusBar>
         <TabControl>
             <TabItem Header="Списки">
                 <DockPanel>
                     <ToolBarTray DockPanel.Dock="Top">
-                        <ToolBar Header="Сервера" Band="0">
-                            <ComboBox Name ="ServersList" Margin="27,0,0,0" MinWidth="120" MaxWidth="200" SelectedIndex="0"
+                        <ToolBar Header="Сервера" Band="0" BandIndex="0">
+                            <ComboBox Name="ServersList" Margin="26,0,0,0" MinWidth="120" MaxWidth="200"
+                                      SelectedIndex="0"
                                       ItemsSource="{Binding Servers}"
                                       SelectedItem="{Binding SelectedServer}"
                                       DisplayMemberPath="Address">
-                             
                             </ComboBox>
                             <Button ToolTip="Добавить" Command="{Binding CreateNewServerCommand}">
                                 <fa:ImageAwesome Icon="Solid_PlusCircle" Height="12" Foreground="DarkBlue"/>
                             </Button>
-                            <Button fa:Awesome.Content="Solid_Edit" Foreground="OrangeRed" ToolTip="Редактировать"
+                            <Button fa:Awesome.Content="Solid_Edit" Foreground="OrangeRed" 
+                                    ToolTip="Редактировать"
                                     Command="{Binding EditServerCommand}"
                                     CommandParameter="{Binding SelectedServer}"/>
-                            <Button fa:Awesome.Content="Regular_TrashAlt" Foreground="red" ToolTip="Удалить"
+                            <Button fa:Awesome.Content="Regular_TrashAlt" Foreground="Red"
+                                    ToolTip="Удалить"
                                     Command="{Binding DeleteServerCommand}"/>
                         </ToolBar>
                         <ToolBar Header="Отправители" Band="1">
@@ -75,30 +78,37 @@
                             <Button ToolTip="Добавить">
                                 <fa:ImageAwesome Icon="Solid_PlusCircle" Height="12" Foreground="DarkBlue"/>
                             </Button>
-                            <Button fa:Awesome.Content="Solid_Edit" Foreground="OrangeRed" ToolTip="Редактировать"/>
-                            <Button fa:Awesome.Content="Regular_TrashAlt" Foreground="red" ToolTip="Удалить"/>
+                            <Button fa:Awesome.Content="Solid_Edit" Foreground="OrangeRed" 
+                                    ToolTip="Редактировать"/>
+                            <Button fa:Awesome.Content="Regular_TrashAlt" Foreground="Red"
+                                    ToolTip="Удалить"/>
                         </ToolBar>
-                        <ToolBar Header="Перейти в Планировщик" Band="0">
+                        <ToolBar Header="Перейти в планировщик" Band="0">
                             <Button fa:Awesome.Content="Regular_Clock" Foreground="DarkBlue"/>
                         </ToolBar>
                         <ToolBar Header="Получатели" Band="1">
                             <Button ToolTip="Добавить">
-                                <fa:ImageAwesome Icon="Solid_PlusCircle" Height="12" Foreground="DarkBlue"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <fa:ImageAwesome Icon="Solid_PlusCircle" Height="12" Foreground="DarkBlue"/>
+                                    <TextBlock Text="Добавить получателя" Margin="5,0,0,0"/>
+                                </StackPanel>
                             </Button>
-                            <Button fa:Awesome.Content="Solid_Edit" Foreground="OrangeRed" ToolTip="Редактировать"/>
-                            <Button fa:Awesome.Content="Regular_TrashAlt" Foreground="red" ToolTip="Удалить"/>
+                            <Button fa:Awesome.Content="Solid_Edit" Foreground="OrangeRed" 
+                                    ToolTip="Редактировать"/>
+                            <Button fa:Awesome.Content="Regular_TrashAlt" Foreground="Red"
+                                    ToolTip="Удалить"/>
                         </ToolBar>
                     </ToolBarTray>
                     <GroupBox Header="Список получателей">
-                        <DataGrid Name="RecipientList" ItemsSource="{Binding Recipients}"
+                        <DataGrid Name="RecipientsList" ItemsSource="{Binding Recipients}"
                                   SelectedItem="{Binding SelectedRecipient}"
                                   AutoGenerateColumns="False"
                                   GridLinesVisibility="Vertical"
-                                  AlternatingRowBackground="LightGray"
+                                  AlternatingRowBackground="LightBlue"
                                   VerticalGridLinesBrush="Gray">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="ID" MinWidth="40"/>
-                                <DataGridTextColumn Header="Имя" Width="*" Binding="{Binding Name}"/>  
+                                <DataGridTextColumn Header="ID" MinWidth="30"/>
+                                <DataGridTextColumn Header="Имя" Width="*" Binding="{Binding Name}"/>
                                 <DataGridTextColumn Header="Адрес" MinWidth="160" Binding="{Binding Address}"/>
                             </DataGrid.Columns>
                         </DataGrid>
@@ -122,9 +132,8 @@
                                         <Setter Property="Background" Value="White"/>
                                     </Style>
                                 </StackPanel.Resources>
-                                <Button Content="Отправить"/>
-                                <Button Content="Заплонировать"/>
-
+                                <Button Content="Отправить" Command="{Binding SendMailCommand}"/>
+                                <Button Content="Запланировать"/>
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
@@ -191,9 +200,9 @@
                                     </StackPanel>
                                 </GroupBox>
                             </ListBoxItem>
-                        </ListBox> 
+                        </ListBox>
                     </GroupBox>
-                    <GridSplitter Grid.Column="0" HorizontalAlignment="Right" Width="3" Background="Transparent"/>
+                    <GridSplitter Grid.Column="0" HorizontalAlignment="Right" Width="3" Background="Transparent" ShowsPreview="True"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Письма">
@@ -203,7 +212,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <GroupBox Grid.Column="0" Header="Список писем">
-                        <ListBox Name="MessagesList" ItemsSource="{Binding Messages}"
+                        <ListBox Name="MessagesList" ItemsSource="{Binding Messages}" 
                                  SelectedItem="{Binding SelectedMessage}"
                                  DisplayMemberPath="Subject"/>
                     </GroupBox>
@@ -214,11 +223,11 @@
                             </GroupBox>
                             <GroupBox Header="Тело письма">
                                 <TextBox AcceptsReturn="True" TextWrapping="Wrap"
-                                        Text="{Binding SelectedItem.Body, ElementName=MessagesList}" />
+                                         Text="{Binding SelectedItem.Body, ElementName=MessagesList}"/>
+                                <!--<RichTextBox/>-->
                             </GroupBox>
                         </DockPanel>
                     </GroupBox>
-
                 </Grid>
             </TabItem>
             <TabItem Header="Статистика">
@@ -227,9 +236,12 @@
                         <Style TargetType="TextBlock">
                             <Style.Triggers>
                                 <Trigger Property="Grid.Column" Value="0">
-                                    <Setter Property="FontWeight" Value="Bold"></Setter>
-                                                                      
-                                </Trigger> 
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                                </Trigger>
+                                <Trigger Property="Grid.Column" Value="1">
+                                    <Setter Property="Margin" Value="5,0,0,0"/>
+                                </Trigger>
                             </Style.Triggers>
                         </Style>
                     </Grid.Resources>
@@ -242,21 +254,25 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                     </Grid.RowDefinitions>
+                    </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Число отправленных писем: "/>
-                    <TextBlock Grid.Column="1" Grid.Row="0" Text="5"/>
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Число отправленных писем:"/>
+                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Statistic.SendMessagesCount}"/>
 
-                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Число отправителей в базе: "/>
+                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Число отправителей в базе:"/>
                     <TextBlock Grid.Column="1" Grid.Row="1" Text="5"/>
 
-                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Число получателей в базе: "/>
+                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Число получателей в базе:"/>
                     <TextBlock Grid.Column="1" Grid.Row="2" Text="10"/>
 
-                    <TextBlock Grid.Column="0" Grid.Row="3" Text="Число запусков: "/>
+                    <TextBlock Grid.Column="0" Grid.Row="3" Text="Число запусков:"/>
                     <TextBlock Grid.Column="1" Grid.Row="3" Text="10"/>
+
                 </Grid>
             </TabItem>
+            <!--<TabItem Header="Котики">
+                <Image Source="https://oir.mobi/uploads/posts/2019-11/1574898227_milye-kotiki-63.jpg"/>
+            </TabItem>-->
         </TabControl>
     </DockPanel>
 </Window>

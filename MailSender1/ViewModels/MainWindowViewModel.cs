@@ -1,18 +1,21 @@
-﻿using MailSender1.Data;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
+using System.Windows.Input;
+using MailSender1.Data;
 using MailSender1.Infrastructure.Commands;
 using MailSender1.lib.Interfaces;
 using MailSender1.Models;
 using MailSender1.ViewModels.Base;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
-using System.Windows.Input;
 
 namespace MailSender1.ViewModels
 {
     class MainWindowViewModel : ViewModel
     {
         private readonly IMailService _MailService;
+
+        public StatisticViewModel Statistic { get; } = new StatisticViewModel();
+
 
         private string _Title = "Тестовое окно";
 
@@ -45,13 +48,14 @@ namespace MailSender1.ViewModels
             set => Set(ref _Recipients, value);
         }
 
-           public ObservableCollection<Message> Messages
+        public ObservableCollection<Message> Messages
         {
             get => _Messages;
             set => Set(ref _Messages, value);
         }
 
         private Server _SelectedServer;
+
         public Server SelectedServer
         {
             get => _SelectedServer;
@@ -59,6 +63,7 @@ namespace MailSender1.ViewModels
         }
 
         private Sender _SelectedSender;
+
         public Sender SelectedSender
         {
             get => _SelectedSender;
@@ -66,6 +71,7 @@ namespace MailSender1.ViewModels
         }
 
         private Recipient _SelectedRecipient;
+
         public Recipient SelectedRecipient
         {
             get => _SelectedRecipient;
@@ -73,6 +79,7 @@ namespace MailSender1.ViewModels
         }
 
         private Message _SelectedMessage;
+
         public Message SelectedMessage
         {
             get => _SelectedMessage;
@@ -86,14 +93,17 @@ namespace MailSender1.ViewModels
         private ICommand _CreateNewServerCommand;
 
         public ICommand CreateNewServerCommand => _CreateNewServerCommand
-            ??= new LambdaCommand(OnCreateNewServerCommandExecuted, CanCreateNewServerCommandExecuted);
+            ??= new LambdaCommand(OnCreateNewServerCommandExecuted, CanCreateNewServerCommandExecute);
 
-        private bool CanCreateNewServerCommandExecuted(object p) => true;
+        private bool CanCreateNewServerCommandExecute(object p) => true;
 
         private void OnCreateNewServerCommandExecuted(object p)
         {
-            MessageBox.Show("Создание нового сервера", "Управление серверами");
+            // Основное действие, выполняемое командой, описывается здесь!!!
+
+            MessageBox.Show("Создание нового сервера!", "Управление серверами");
         }
+
         #endregion
 
         #region EditServerCommand
@@ -101,17 +111,18 @@ namespace MailSender1.ViewModels
         private ICommand _EditServerCommand;
 
         public ICommand EditServerCommand => _EditServerCommand
-            ??= new LambdaCommand(OnEditServerCommandExecuted, CanEditServerCommandExecuted);
+            ??= new LambdaCommand(OnEditServerCommandExecuted, CanEditServerCommandExecute);
 
-        private bool CanEditServerCommandExecuted(object p) => p is Server || SelectedServer != null;
+        private bool CanEditServerCommandExecute(object p) => p is Server || SelectedServer != null;
 
         private void OnEditServerCommandExecuted(object p)
         {
             var server = p as Server ?? SelectedServer;
             if (server is null) return;
 
-            MessageBox.Show($"Редактирование сервера{server.Address}!", "Управление серверами");
+            MessageBox.Show($"Редактирование сервера {server.Address}!", "Управление серверами");
         }
+
         #endregion
 
         #region DeleteServerCommand
@@ -119,9 +130,9 @@ namespace MailSender1.ViewModels
         private ICommand _DeleteServerCommand;
 
         public ICommand DeleteServerCommand => _DeleteServerCommand
-            ??= new LambdaCommand(OnDeleteServerCommandExecuted, CanDeleteServerCommandExecuted);
+            ??= new LambdaCommand(OnDeleteServerCommandExecuted, CanDeleteServerCommandExecute);
 
-        private bool CanDeleteServerCommandExecuted(object p) => p is Server || SelectedServer != null;
+        private bool CanDeleteServerCommandExecute(object p) => p is Server || SelectedServer != null;
 
         private void OnDeleteServerCommandExecuted(object p)
         {
@@ -131,18 +142,22 @@ namespace MailSender1.ViewModels
             Servers.Remove(server);
             SelectedServer = Servers.FirstOrDefault();
 
-            //MessageBox.Show($"Удаление сервера{server.Address}!", "Управление серверами");
+            //MessageBox.Show($"Удаление сервера {server.Address}!", "Управление серверами");
         }
+
         #endregion
 
-        #region Command SendMailCommand - Summary
+        #region Command SendMailCommand - Отправка почты
 
+        /// <summary>Отправка почты</summary>
         private ICommand _SendMailCommand;
 
+        /// <summary>Отправка почты</summary>
         public ICommand SendMailCommand => _SendMailCommand
-            ??= new LambdaCommand(OnSendMailCommandExecuted, CanSendMailCommandExecuted);
+            ??= new LambdaCommand(OnSendMailCommandExecuted, CanSendMailCommandExecute);
 
-        private bool CanSendMailCommandExecuted(object p)
+        /// <summary>Проверка возможности выполнения - Отправка почты</summary>
+        private bool CanSendMailCommandExecute(object p)
         {
             if (SelectedServer is null) return false;
             if (SelectedSender is null) return false;
@@ -151,6 +166,7 @@ namespace MailSender1.ViewModels
             return true;
         }
 
+        /// <summary>Логика выполнения - Отправка почты</summary>
         private void OnSendMailCommandExecuted(object p)
         {
             var server = SelectedServer;
@@ -158,18 +174,19 @@ namespace MailSender1.ViewModels
             var recipient = SelectedRecipient;
             var message = SelectedMessage;
 
-            
             var mail_sender = _MailService.GetSender(server.Address, server.Port, server.UseSSL, server.Login, server.Password);
             mail_sender.Send(sender.Address, recipient.Address, message.Subject, message.Body);
+
+            Statistic.MessageSended();
         }
-        #endregion
 
         #endregion
 
+        #endregion
 
         public MainWindowViewModel(IMailService MailService)
-
         {
+            _MailService = MailService;
             Servers = new ObservableCollection<Server>(TestData.Servers);
             Senders = new ObservableCollection<Sender>(TestData.Senders);
             Recipients = new ObservableCollection<Recipient>(TestData.Recipients);
